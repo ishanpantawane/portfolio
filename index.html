@@ -1,611 +1,573 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>STUDIO_DEEP // Portfolio</title>
+<title>Ishan Pantawane // Portfolio</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&amp;family=JetBrains+Mono:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "secondary-fixed-dim": "#a3d800",
-                    "tertiary-container": "#d2cfce",
-                    "primary-fixed-dim": "#a9ccdc",
-                    "tertiary-fixed-dim": "#c9c6c5",
-                    "on-surface-variant": "#c1c7cb",
-                    "on-surface": "#e5e2e1",
-                    "background": "#131313",
-                    "error": "#ffb4ab",
-                    "tertiary": "#efebea",
-                    "error-container": "#93000a",
-                    "surface-container": "#20201f",
-                    "surface-variant": "#353535",
-                    "primary": "#d2f1ff",
-                    "inverse-on-surface": "#313030",
-                    "surface-container-high": "#2a2a2a",
-                    "on-error-container": "#ffdad6",
-                    "surface-bright": "#393939",
-                    "outline-variant": "#41484b",
-                    "outline": "#8b9295",
-                    "secondary": "#c5fe33",
-                    "secondary-container": "#aae100",
-                    "on-tertiary-fixed-variant": "#484646",
-                    "on-secondary-container": "#476000",
-                    "surface-dim": "#131313",
-                    "on-tertiary": "#313030",
-                    "on-tertiary-container": "#595858",
-                    "inverse-primary": "#426371",
-                    "on-tertiary-fixed": "#1c1b1b",
-                    "on-primary-container": "#3c5d6b",
-                    "on-primary": "#103441",
-                    "primary-fixed": "#c5e8f8",
-                    "primary-container": "#b2d5e5",
-                    "tertiary-fixed": "#e5e2e1",
-                    "secondary-fixed": "#bdf528",
-                    "on-primary-fixed": "#001f29",
-                    "on-secondary-fixed": "#151f00",
-                    "surface-container-lowest": "#0e0e0e",
-                    "on-secondary-fixed-variant": "#394d00",
-                    "on-primary-fixed-variant": "#294b58",
-                    "surface": "#131313",
-                    "inverse-surface": "#e5e2e1",
-                    "on-secondary": "#263500",
-                    "surface-tint": "#a9ccdc",
-                    "surface-container-low": "#1c1b1b",
-                    "surface-container-highest": "#353535",
-                    "on-error": "#690005",
-                    "on-background": "#e5e2e1"
-            },
-            "borderRadius": {
-                    "DEFAULT": "1rem",
-                    "lg": "2rem",
-                    "xl": "3rem",
-                    "full": "9999px"
-            },
-            "spacing": {
-                    "margin-desktop": "64px",
-                    "container-max": "1440px",
-                    "unit": "8px",
-                    "gutter": "24px",
-                    "margin-mobile": "20px"
-            },
-            "fontFamily": {
-                    "headline-md": ["Inter"],
-                    "label-caps": ["JetBrains Mono"],
-                    "body-lg": ["JetBrains Mono"],
-                    "display-lg": ["Inter"],
-                    "body-sm": ["JetBrains Mono"],
-                    "display-lg-mobile": ["Inter"]
-            },
-            "fontSize": {
-                    "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
-                    "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
-                    "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
-                    "body-sm": ["14px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
-                    "display-lg-mobile": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800"}]
-            }
-          },
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "secondary-fixed-dim": "#a3d800",
+          "tertiary-container": "#d2cfce",
+          "primary-fixed-dim": "#a9ccdc",
+          "tertiary-fixed-dim": "#c9c6c5",
+          "on-surface-variant": "#c1c7cb",
+          "on-surface": "#e5e2e1",
+          "background": "#131313",
+          "error": "#ffb4ab",
+          "tertiary": "#efebea",
+          "error-container": "#93000a",
+          "surface-container": "#20201f",
+          "surface-variant": "#353535",
+          "primary": "#d2f1ff",
+          "inverse-on-surface": "#313030",
+          "surface-container-high": "#2a2a2a",
+          "on-error-container": "#ffdad6",
+          "surface-bright": "#393939",
+          "outline-variant": "#41484b",
+          "outline": "#8b9295",
+          "secondary": "#c5fe33",
+          "secondary-container": "#aae100",
+          "on-tertiary-fixed-variant": "#484646",
+          "on-secondary-container": "#476000",
+          "surface-dim": "#131313",
+          "on-tertiary": "#313030",
+          "on-tertiary-container": "#595858",
+          "inverse-primary": "#426371",
+          "on-tertiary-fixed": "#1c1b1b",
+          "on-primary-container": "#3c5d6b",
+          "on-primary": "#103441",
+          "primary-fixed": "#c5e8f8",
+          "primary-container": "#b2d5e5",
+          "tertiary-fixed": "#e5e2e1",
+          "secondary-fixed": "#bdf528",
+          "on-primary-fixed": "#001f29",
+          "on-secondary-fixed": "#151f00",
+          "surface-container-lowest": "#0e0e0e",
+          "on-secondary-fixed-variant": "#394d00",
+          "on-primary-fixed-variant": "#294b58",
+          "surface": "#131313",
+          "inverse-surface": "#e5e2e1",
+          "on-secondary": "#263500",
+          "surface-tint": "#a9ccdc",
+          "surface-container-low": "#1c1b1b",
+          "surface-container-highest": "#353535",
+          "on-error": "#690005",
+          "on-background": "#e5e2e1"
         },
-      }
-    </script>
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "margin-desktop": "64px",
+          "container-max": "1440px",
+          "unit": "8px",
+          "gutter": "24px",
+          "margin-mobile": "20px"
+        },
+        "fontFamily": {
+          "headline-md": ["Inter"],
+          "label-caps": ["JetBrains Mono"],
+          "body-lg": ["JetBrains Mono"],
+          "display-lg": ["Inter"],
+          "body-sm": ["JetBrains Mono"],
+          "display-lg-mobile": ["Inter"]
+        },
+        "fontSize": {
+          "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "label-caps": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700"}],
+          "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+          "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+          "body-sm": ["14px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+          "display-lg-mobile": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "800"}]
+        }
+      },
+    },
+  }
+</script>
 <style>
-        :root {
-            --mouse-x: 50%;
-            --mouse-y: 50%;
-        }
+  :root {
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+  }
 
-        body {
-            background-color: #020202;
-            color: #e5e2e1;
-            overflow-x: hidden;
-        }
+  body {
+    background-color: #020202;
+    color: #e5e2e1;
+    overflow-x: hidden;
+  }
 
-        .bg-grid-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUo18DSU39fmqi6TXPAZAkumAVWveDKtNIkxNa7xAsQHImA4Spvv5_3iR_aFTyWn9ZqZie-l03ywrvSGqRIchsKZ8YEzpUAEV5tRLuSEIiNleD1cfoN9-v7fEi-Dw30szoNCdb04Ur93gi4Hdo1JCnWI1TbsMcOAzFislqfjesvdRhEaXEHYvpGFzIOZwyebtWoUiITUpzE5Qsh9n2jBbZAMBf93ZW11gA4BQpdlDU9SruYoUrqwVOtJ1H4OeTFRtrhAPqs9QrvAWw');
-            background-repeat: repeat;
-            opacity: 0.15;
-            z-index: -2;
-            pointer-events: none;
-        }
+  /* ✅ Pure CSS grid — no external URL */
+  .bg-grid-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      linear-gradient(rgba(178,213,229,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(178,213,229,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -2;
+    pointer-events: none;
+  }
 
-        .bg-glow-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                600px circle at var(--mouse-x) var(--mouse-y),
-                rgba(178, 213, 229, 0.12),
-                transparent 40%
-            );
-            z-index: -1;
-            pointer-events: none;
-            transition: background 0.15s ease-out;
-        }
+  .bg-glow-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      600px circle at var(--mouse-x) var(--mouse-y),
+      rgba(178, 213, 229, 0.12),
+      transparent 40%
+    );
+    z-index: -1;
+    pointer-events: none;
+    transition: background 0.15s ease-out;
+  }
 
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
 
-        .clay-card {
-            box-shadow: inset 10px 10px 20px rgba(255, 255, 255, 0.05), 
-                        inset -10px -10px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+  .clay-card {
+    box-shadow: inset 10px 10px 20px rgba(255, 255, 255, 0.05),
+                inset -10px -10px 20px rgba(0, 0, 0, 0.4);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  }
 
-        .liquid-glass {
-            background: rgba(178, 213, 229, 0.08);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+  .liquid-glass {
+    background: rgba(178, 213, 229, 0.08);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
 
-        .project-card-glow-lime:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: inset 12px 12px 24px rgba(255, 255, 255, 0.08), 
-                        inset -12px -12px 24px rgba(0, 0, 0, 0.5),
-                        0 0 30px rgba(197, 254, 51, 0.3);
-        }
+  .project-card-glow-lime:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: inset 12px 12px 24px rgba(255, 255, 255, 0.08),
+                inset -12px -12px 24px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(197, 254, 51, 0.3);
+  }
 
-        .project-card-glow-blue:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: inset 12px 12px 24px rgba(255, 255, 255, 0.08), 
-                        inset -12px -12px 24px rgba(0, 0, 0, 0.5),
-                        0 0 30px rgba(178, 213, 229, 0.3);
-        }
+  .project-card-glow-blue:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: inset 12px 12px 24px rgba(255, 255, 255, 0.08),
+                inset -12px -12px 24px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(178, 213, 229, 0.3);
+  }
 
-        .clay-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: inset 12px 12px 24px rgba(255, 255, 255, 0.08), 
-                        inset -12px -12px 24px rgba(0, 0, 0, 0.5),
-                        0 20px 40px rgba(0, 0, 0, 0.4);
-        }
+  .clay-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: inset 12px 12px 24px rgba(255, 255, 255, 0.08),
+                inset -12px -12px 24px rgba(0, 0, 0, 0.5),
+                0 20px 40px rgba(0, 0, 0, 0.4);
+  }
 
-        .case-study-btn {
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-            transition: color 0.4s ease;
-        }
-        
-        .case-study-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #B2D5E5 0%, #7CB9D1 100%);
-            z-index: -1;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        .case-study-btn:hover {
-            color: #103441 !important;
-        }
-        
-        .case-study-btn:hover::before {
-            transform: translateY(0);
-        }
+  .case-study-btn {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.4s ease;
+  }
 
-        .stagger-in {
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-        }
+  .case-study-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #B2D5E5 0%, #7CB9D1 100%);
+    z-index: -1;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+  .case-study-btn:hover { color: #103441 !important; }
+  .case-study-btn:hover::before { transform: translateY(0); }
 
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+  .stagger-in {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
 
-        .scroll-reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-        @keyframes skeleton-shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        .skeleton-shimmer::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            animation: skeleton-shimmer 1.5s infinite;
-        }
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-        /* Beam Border Effect */
-        .beam-container {
-            position: relative;
-            padding: 2px;
-            overflow: hidden;
-        }
+  .scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-        .beam-border {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
+  @keyframes skeleton-shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 
-        .beam-border::before {
-            content: "";
-            position: absolute;
-            inset: -150%;
-            width: 250px;
-            height: 40px;
-            background: linear-gradient(90deg, transparent, #B2D5E5, #c5fe33, transparent);
-            offset-path: rect(0px auto auto 0px round 2rem);
-            animation: borderTrail 4s linear infinite;
-            filter: blur(4px);
-            opacity: 0.9;
-        }
+  .skeleton-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    animation: skeleton-shimmer 1.5s infinite;
+  }
 
-        @keyframes borderTrail {
-            0% { offset-distance: 0%; }
-            100% { offset-distance: 100%; }
-        }
-    </style>
+  /* Beam Border Effect */
+  .beam-container {
+    position: relative;
+    padding: 2px;
+    overflow: hidden;
+  }
+
+  .beam-border {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .beam-border::before {
+    content: "";
+    position: absolute;
+    inset: -150%;
+    width: 250px;
+    height: 40px;
+    background: linear-gradient(90deg, transparent, #B2D5E5, #c5fe33, transparent);
+    offset-path: rect(0px auto auto 0px round 2rem);
+    animation: borderTrail 4s linear infinite;
+    filter: blur(4px);
+    opacity: 0.9;
+  }
+
+  @keyframes borderTrail {
+    0%   { offset-distance: 0%; }
+    100% { offset-distance: 100%; }
+  }
+</style>
 </head>
 <body class="font-body-lg text-on-surface">
+
 <div class="bg-grid-layer"></div>
 <div class="bg-glow-layer" id="mouse-glow"></div>
+
+<!-- Nav -->
 <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] rounded-full border border-white/15 bg-primary/20 backdrop-blur-[20px] flex justify-between items-center px-8 py-3 max-w-container-max mx-auto z-50 shadow-[inset_10px_10px_20px_rgba(255,255,255,0.1),inset_-10px_-10px_20px_rgba(0,0,0,0.2)]">
-<div class="font-headline-md text-headline-md text-on-surface tracking-tighter">Portfolio</div>
-<div class="hidden md:flex gap-8 items-center">
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="#work">Work</a>
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="#tech">Tech</a>
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="#work">Process</a>
-<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="#connect">Connect</a>
-</div>
-<div class="flex items-center gap-4">
-<button class="material-symbols-outlined text-secondary">terminal</button>
-<button class="bg-secondary text-on-secondary px-6 py-2 rounded-full font-label-caps text-label-caps active:scale-95 transition-transform hover:opacity-90">Hire Me</button>
-</div>
+  <div class="font-headline-md text-headline-md text-on-surface tracking-tighter">Portfolio</div>
+  <div class="hidden md:flex gap-8 items-center">
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="#work">Work</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="#tech">Tech</a>
+    <a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-all duration-300" href="#connect">Connect</a>
+  </div>
+  <div class="flex items-center gap-4">
+    <button class="material-symbols-outlined text-secondary">terminal</button>
+    <button class="bg-secondary text-on-secondary px-6 py-2 rounded-full font-label-caps text-label-caps active:scale-95 transition-transform hover:opacity-90">Hire Me</button>
+  </div>
 </nav>
+
 <main class="relative z-10">
-<!-- Hero Section -->
-<section class="min-h-screen flex items-center pt-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
-<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter w-full">
-<!-- Hero Left Content -->
-<div class="md:col-span-7 flex flex-col justify-center stagger-in" style="animation-delay: 0.2s">
-<div class="inline-flex items-center gap-2 mb-6 px-4 py-1 rounded-full border border-secondary/30 bg-secondary/5 w-fit">
-<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-<span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Welcome to my portfolio</span>
-</div>
-<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-8 leading-none"><span class="text-secondary">ISHAN</span><br/>PANTAWANE</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-12">
-                        Bridging the gap between hyper-clean aesthetics and industrial-grade software architecture. I build interfaces that feel like liquid and systems that run like clockwork.
-                    </p>
-<div class="flex flex-wrap gap-4">
-<button class="bg-secondary text-on-secondary px-8 py-4 rounded-full font-label-caps text-label-caps clay-card flex items-center gap-2">
-                            Explore Work <span class="material-symbols-outlined">north_east</span>
-</button>
-<button class="liquid-glass text-primary px-8 py-4 rounded-full font-label-caps text-label-caps flex items-center gap-2">
-                            Download CV <span class="material-symbols-outlined">download</span>
-</button>
-</div>
-</div>
-<!-- Hero Right Content (3D Scene) -->
-<div class="md:col-span-5 h-[600px] md:h-[650px] relative stagger-in flex items-center justify-center" style="animation-delay: 0.4s">
-<!-- Floating ID Card Container with Beam Border -->
-<div class="w-full max-w-[450px] h-[550px] rounded-lg">
-<div class="w-full h-full relative z-10 rounded-lg overflow-hidden" id="three-container"></div>
-</div>
-<script type="importmap">
-                        {
-                            "imports": {
-                                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-                            }
-                        }
-                    </script>
-<script type="module">
-                        import * as THREE from 'three';
 
-                        const container = document.getElementById('three-container');
-                        
-                        const scene = new THREE.Scene();
-                        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-                        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-                        renderer.setSize(container.clientWidth, container.clientHeight);
-                        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-                        container.appendChild(renderer.domElement);
+  <!-- Hero Section -->
+  <section class="min-h-screen flex items-center pt-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter w-full">
 
-                        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-                        scene.add(ambientLight);
+      <!-- Hero Left -->
+      <div class="md:col-span-7 flex flex-col justify-center stagger-in" style="animation-delay: 0.2s">
+        <div class="inline-flex items-center gap-2 mb-6 px-4 py-1 rounded-full border border-secondary/30 bg-secondary/5 w-fit">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Available for freelance · 2026</span>
+        </div>
+        <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-8 leading-none">
+          <span class="text-secondary">ISHAN</span><br/>PANTAWANE
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-12">
+          Bridging the gap between hyper-clean aesthetics and industrial-grade software architecture. I build interfaces that feel like liquid and systems that run like clockwork.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <button class="bg-secondary text-on-secondary px-8 py-4 rounded-full font-label-caps text-label-caps clay-card flex items-center gap-2">
+            Explore Work <span class="material-symbols-outlined">north_east</span>
+          </button>
+          <button class="liquid-glass text-primary px-8 py-4 rounded-full font-label-caps text-label-caps flex items-center gap-2">
+            Download CV <span class="material-symbols-outlined">download</span>
+          </button>
+        </div>
+      </div>
 
-                        const pointLight1 = new THREE.PointLight(0xc5fe33, 2.5, 10);
-                        pointLight1.position.set(2, 2, 2);
-                        scene.add(pointLight1);
+      <!-- Hero Right (3D Card) -->
+      <div class="md:col-span-5 h-[600px] md:h-[650px] relative stagger-in flex items-center justify-center" style="animation-delay: 0.4s">
+        <div class="w-full max-w-[450px] h-[550px] rounded-lg">
+          <div class="w-full h-full relative z-10 rounded-lg overflow-hidden" id="three-container"></div>
+        </div>
 
-                        const pointLight2 = new THREE.PointLight(0xd2f1ff, 2.5, 10);
-                        pointLight2.position.set(-2, -2, 2);
-                        scene.add(pointLight2);
+        <script type="importmap">
+          {
+            "imports": {
+              "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+              "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+          }
+        </script>
+        <script type="module">
+          import * as THREE from 'three';
 
-                        const idCardGroup = new THREE.Group();
-                        // Increased size factor
-                        const scaleFactor = 1.15; 
+          const container = document.getElementById('three-container');
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+          const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+          renderer.setSize(container.clientWidth, container.clientHeight);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          container.appendChild(renderer.domElement);
 
-                        const cardGeometry = new THREE.BoxGeometry(2.6 * scaleFactor, 4.0 * scaleFactor, 0.1 * scaleFactor); 
-                        const cardMaterial = new THREE.MeshPhysicalMaterial({
-                            color: 0x131313,
-                            roughness: 0.1,
-                            metalness: 0.8,
-                            transparent: true,
-                            opacity: 0.9,
-                            transmission: 0.3,
-                            thickness: 0.5 * scaleFactor,
-                            clearcoat: 1.0,
-                            clearcoatRoughness: 0.1
-                        });
-                        const cardBody = new THREE.Mesh(cardGeometry, cardMaterial);
-                        idCardGroup.add(cardBody);
+          scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+          const pl1 = new THREE.PointLight(0xc5fe33, 2.5, 10);
+          pl1.position.set(2, 2, 2); scene.add(pl1);
+          const pl2 = new THREE.PointLight(0xd2f1ff, 2.5, 10);
+          pl2.position.set(-2, -2, 2); scene.add(pl2);
 
-                        const edges = new THREE.EdgesGeometry(cardGeometry);
-                        const lineMaterial = new THREE.LineBasicMaterial({ 
-                            color: 0xB2D5E5, 
-                            linewidth: 2, 
-                            transparent: true,
-                            opacity: 0.8
-                        }); 
-                        const borderLines = new THREE.LineSegments(edges, lineMaterial);
-                        idCardGroup.add(borderLines);
+          const group = new THREE.Group();
+          const s = 1.15;
 
-                        // Soft Neon Pulse Glow Plane
-                        const glowGeo = new THREE.PlaneGeometry(3.2 * scaleFactor, 4.6 * scaleFactor);
-                        const glowMat = new THREE.MeshBasicMaterial({
-                            color: 0xB2D5E5,
-                            transparent: true,
-                            opacity: 0,
-                            side: THREE.DoubleSide,
-                            blending: THREE.AdditiveBlending
-                        });
-                        const glowPlane = new THREE.Mesh(glowGeo, glowMat);
-                        glowPlane.position.z = -0.15 * scaleFactor;
-                        idCardGroup.add(glowPlane);
+          const cardGeo = new THREE.BoxGeometry(2.6*s, 4.0*s, 0.1*s);
+          const cardMat = new THREE.MeshPhysicalMaterial({
+            color: 0x131313, roughness: 0.1, metalness: 0.8,
+            transparent: true, opacity: 0.9, transmission: 0.3,
+            thickness: 0.5*s, clearcoat: 1.0, clearcoatRoughness: 0.1
+          });
+          group.add(new THREE.Mesh(cardGeo, cardMat));
 
-                        const textureLoader = new THREE.TextureLoader();
-                        const headshotTexture = textureLoader.load('https://lh3.googleusercontent.com/aida-public/AB6AXuDHKvaoPzKWRkM0kRwndh8tWuOZHB_AzfWG6Rcly6GerHklvIz3igIm37a6fZhEP9BbBVgMTsLgisml_K_9Vwn3NYnUvv5cNDmGILNpkgQjZjpOiZbZ_fbtuc8NlYuaaUH1LzwlNYRraAqk9fKGCikfpN0lG8FwAx8KTGtF1WPQMQ16EDMw-7jiWrYfY-jESHY-vKQxgtxoEmymGIhxKP388DI0GiTQjyAKVoq5anUBJfBVY0kUO6QvBLNfxiOTHNK_Hy7262j6H1xH');
-                        
-                        const photoGeometry = new THREE.PlaneGeometry(2.3 * scaleFactor, 2.3 * scaleFactor); 
-                        const photoMaterial = new THREE.MeshPhysicalMaterial({ 
-                            map: headshotTexture,
-                            transparent: true,
-                            opacity: 0.9,
-                            roughness: 0.2,
-                            metalness: 0.4,
-                            transmission: 0.1,
-                            side: THREE.FrontSide
-                        });
-                        const photoMesh = new THREE.Mesh(photoGeometry, photoMaterial);
-                        photoMesh.position.set(0, 0.5 * scaleFactor, 0.055 * scaleFactor); 
-                        idCardGroup.add(photoMesh);
+          const edges = new THREE.EdgesGeometry(cardGeo);
+          const lineMat = new THREE.LineBasicMaterial({ color: 0xB2D5E5, linewidth: 2, transparent: true, opacity: 0.8 });
+          group.add(new THREE.LineSegments(edges, lineMat));
 
-                        const chipGeo = new THREE.PlaneGeometry(0.5 * scaleFactor, 0.4 * scaleFactor);
-                        const chipMat = new THREE.MeshStandardMaterial({ color: 0xc5fe33, emissive: 0xc5fe33, emissiveIntensity: 0.8 });
-                        const chip = new THREE.Mesh(chipGeo, chipMat);
-                        chip.position.set(-0.6 * scaleFactor, -1.3 * scaleFactor, 0.051 * scaleFactor);
-                        idCardGroup.add(chip);
+          const glowGeo = new THREE.PlaneGeometry(3.2*s, 4.6*s);
+          const glowMat = new THREE.MeshBasicMaterial({
+            color: 0xB2D5E5, transparent: true, opacity: 0,
+            side: THREE.DoubleSide, blending: THREE.AdditiveBlending
+          });
+          const glowPlane = new THREE.Mesh(glowGeo, glowMat);
+          glowPlane.position.z = -0.15*s;
+          group.add(glowPlane);
 
-                        const clipGeo = new THREE.CylinderGeometry(0.12 * scaleFactor, 0.12 * scaleFactor, 0.25 * scaleFactor, 16);
-                        const clipMat = new THREE.MeshStandardMaterial({ color: 0xB2D5E5, roughness: 0.3, metalness: 0.9 });
-                        const clip = new THREE.Mesh(clipGeo, clipMat);
-                        clip.position.set(0, 2.0 * scaleFactor, 0); 
-                        clip.rotation.z = Math.PI / 2;
-                        idCardGroup.add(clip);
+          const texLoader = new THREE.TextureLoader();
+          const photoTex = texLoader.load('./photo1.png');
+          const photoMesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(2.3*s, 2.3*s),
+            new THREE.MeshPhysicalMaterial({
+              map: photoTex, transparent: true, opacity: 0.9,
+              roughness: 0.2, metalness: 0.4, transmission: 0.1, side: THREE.FrontSide
+            })
+          );
+          photoMesh.position.set(0, 0.5*s, 0.055*s);
+          group.add(photoMesh);
 
-                        const wireGeo = new THREE.CylinderGeometry(0.015 * scaleFactor, 0.015 * scaleFactor, 10 * scaleFactor, 8);
-                        const wireMat = new THREE.MeshBasicMaterial({ color: 0x41484B });
-                        const wire = new THREE.Mesh(wireGeo, wireMat);
-                        wire.position.set(0, 7.0 * scaleFactor, 0); 
-                        idCardGroup.add(wire);
+          const chip = new THREE.Mesh(
+            new THREE.PlaneGeometry(0.5*s, 0.4*s),
+            new THREE.MeshStandardMaterial({ color: 0xc5fe33, emissive: 0xc5fe33, emissiveIntensity: 0.8 })
+          );
+          chip.position.set(-0.6*s, -1.3*s, 0.051*s);
+          group.add(chip);
 
-                        scene.add(idCardGroup);
-                        camera.position.z = 6.0; 
+          const clip = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.12*s, 0.12*s, 0.25*s, 16),
+            new THREE.MeshStandardMaterial({ color: 0xB2D5E5, roughness: 0.3, metalness: 0.9 })
+          );
+          clip.position.set(0, 2.0*s, 0);
+          clip.rotation.z = Math.PI / 2;
+          group.add(clip);
 
-                        let clock = new THREE.Clock();
-                        function animate() {
-                            requestAnimationFrame(animate);
-                            const elapsed = clock.getElapsedTime();
+          const wire = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.015*s, 0.015*s, 10*s, 8),
+            new THREE.MeshBasicMaterial({ color: 0x41484B })
+          );
+          wire.position.set(0, 7.0*s, 0);
+          group.add(wire);
 
-                            idCardGroup.rotation.y = Math.sin(elapsed * 0.4) * 0.15;
-                            idCardGroup.rotation.x = Math.cos(elapsed * 0.3) * 0.05;
-                            idCardGroup.position.y = Math.sin(elapsed * 0.6) * 0.15;
+          scene.add(group);
+          camera.position.z = 6.0;
 
-                            // Refined pulse glow
-                            const pulse = (Math.sin(elapsed * 2.5) + 1) / 2;
-                            glowMat.opacity = pulse * 0.25; // Atmospheric blue glow pulse
-                            const glowScale = 1 + (pulse * 0.04);
-                            glowPlane.scale.set(glowScale, glowScale, 1);
-                            
-                            // Sharpened edge highlight pulse
-                            lineMaterial.opacity = 0.4 + (pulse * 0.6);
+          const clock = new THREE.Clock();
+          function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+            group.rotation.y = Math.sin(t * 0.4) * 0.15;
+            group.rotation.x = Math.cos(t * 0.3) * 0.05;
+            group.position.y = Math.sin(t * 0.6) * 0.15;
+            const pulse = (Math.sin(t * 2.5) + 1) / 2;
+            glowMat.opacity = pulse * 0.25;
+            glowPlane.scale.set(1 + pulse * 0.04, 1 + pulse * 0.04, 1);
+            lineMat.opacity = 0.4 + pulse * 0.6;
+            renderer.render(scene, camera);
+          }
+          animate();
 
-                            renderer.render(scene, camera);
-                        }
-                        animate();
+          window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+          });
+        </script>
+      </div>
+    </div>
+  </section>
 
-                        window.addEventListener('resize', () => {
-                            camera.aspect = container.clientWidth / container.clientHeight;
-                            camera.updateProjectionMatrix();
-                            renderer.setSize(container.clientWidth, container.clientHeight);
-                        });
-                    </script>
-</div>
-</div>
-</section>
-<!-- Projects Bento Grid -->
-<section class="py-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto scroll-reveal" id="work">
-<div class="flex justify-between items-end mb-16">
-<div class="max-w-xl">
-<h2 class="font-headline-md text-headline-md mb-4 uppercase tracking-tighter">Projects</h2>
-<p class="font-body-sm text-body-sm text-on-surface-variant">A showcase of high-performance systems and experimental interfaces.</p>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-<!-- Project 1 (Highlighted Variety) -->
-<div class="clay-card liquid-glass project-card-glow-lime p-8 rounded-lg flex flex-col justify-between scroll-reveal md:col-span-2 min-h-[350px]">
-<div>
-<div class="flex justify-between items-start mb-8">
-<span class="px-3 py-1 rounded-full border border-secondary/30 bg-secondary/5 font-label-caps text-[10px] text-secondary uppercase tracking-widest">Live Engine</span>
-<span class="material-symbols-outlined text-primary">monitoring</span>
-</div>
-<h3 class="font-headline-md text-headline-md mb-4">QUANTUM_FLUX</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant mb-8 max-w-2xl">Real-time data visualization engine for high-frequency trading. Built to handle millions of data points per second with sub-millisecond latency.</p>
-</div>
-<a class="case-study-btn font-label-caps text-label-caps text-secondary px-4 py-2 rounded-lg border border-secondary/30 flex items-center justify-center gap-2 transition-all w-fit" href="#">
-                        VIEW CASE STUDY <span class="material-symbols-outlined text-sm">arrow_forward</span>
-</a>
-</div>
-<!-- Project 2 -->
-<div class="clay-card liquid-glass project-card-glow-blue p-8 rounded-lg flex flex-col justify-between scroll-reveal">
-<div>
-<div class="flex justify-between items-start mb-8">
-<span class="px-3 py-1 rounded-full border border-secondary/30 bg-secondary/5 font-label-caps text-[10px] text-secondary uppercase tracking-widest">R&amp;D Phase</span>
-<span class="material-symbols-outlined text-primary">psychology</span>
-</div>
-<h3 class="font-headline-md text-headline-md mb-4">SYNAPSE_OS</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Decentralized operating system for neural interface hardware.</p>
-</div>
-<a class="case-study-btn font-label-caps text-label-caps text-secondary px-4 py-2 rounded-lg border border-secondary/30 flex items-center justify-center gap-2 transition-all w-fit" href="#">
-                        VIEW CASE STUDY <span class="material-symbols-outlined text-sm">arrow_forward</span>
-</a>
-</div>
-<!-- Project 3 -->
-<div class="clay-card liquid-glass project-card-glow-lime p-8 rounded-lg flex flex-col justify-between scroll-reveal md:col-span-3 lg:col-span-1">
-<div>
-<div class="flex justify-between items-start mb-8">
-<span class="px-3 py-1 rounded-full border border-secondary/30 bg-secondary/5 font-label-caps text-[10px] text-secondary uppercase tracking-widest">Experimental</span>
-<span class="material-symbols-outlined text-primary">memory</span>
-</div>
-<h3 class="font-headline-md text-headline-md mb-4">COBALT_PROTO</h3>
-<p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Experimental framework for low-latency edge computing.</p>
-</div>
-<a class="case-study-btn font-label-caps text-label-caps text-secondary px-4 py-2 rounded-lg border border-secondary/30 flex items-center justify-center gap-2 transition-all w-fit" href="#">
-                        VIEW CASE STUDY <span class="material-symbols-outlined text-sm">arrow_forward</span>
-</a>
-</div>
-</div>
-</section>
-<!-- Technical Stack -->
-<section class="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest/30 backdrop-blur-md overflow-hidden scroll-reveal" id="tech">
-<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
-<div>
-<h2 class="font-headline-md text-headline-md mb-8">FORGED IN <br/><span class="text-secondary">THE TERMINAL</span></h2>
-<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
-                        I believe in tools that empower, not hinder. My tech stack is curated for maximum performance and uncompromising developer experience.
-                    </p>
-<div class="flex flex-wrap gap-4">
-<div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Next.js 14</div>
-<div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">TypeScript</div>
-<div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Three.js</div>
-<div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">PostgreSQL</div>
-<div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Tailwind CSS</div>
-<div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Framer Motion</div>
-</div>
-</div>
-<div class="relative h-[400px]">
-<div class="absolute inset-0 bg-secondary/10 rounded-full blur-[120px] animate-pulse"></div>
-<div class="relative z-10 grid grid-cols-2 gap-4 h-full items-center">
-<div class="space-y-4">
-<div class="clay-card liquid-glass p-6 rounded-lg rotate-3">
-<span class="material-symbols-outlined text-secondary mb-2">code</span>
-<div class="font-label-caps text-label-caps">CLEAN CODE</div>
-</div>
-<div class="clay-card liquid-glass p-6 rounded-lg -rotate-2">
-<span class="material-symbols-outlined text-primary mb-2">speed</span>
-<div class="font-label-caps text-label-caps">MAX VELOCITY</div>
-</div>
-</div>
-<div class="space-y-4 mt-12">
-<div class="clay-card liquid-glass p-6 rounded-lg -rotate-3">
-<span class="material-symbols-outlined text-on-surface mb-2">security</span>
-<div class="font-label-caps text-label-caps">ENCRYPTED</div>
-</div>
-<div class="clay-card liquid-glass p-6 rounded-lg rotate-2">
-<span class="material-symbols-outlined text-secondary mb-2">hub</span>
-<div class="font-label-caps text-label-caps">SCALABLE</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- CTA Section -->
-<section class="py-32 px-margin-mobile md:px-margin-desktop text-center scroll-reveal" id="connect">
-<div class="max-w-2xl mx-auto">
-<h2 class="font-display-lg-mobile text-display-lg-mobile mb-8">Ready to initiate <br/> <span class="text-secondary underline decoration-dotted underline-offset-8">deployment?</span></h2>
-<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">Currently open to freelance partnerships and selective full-time opportunities. Let's build something that survives the future.</p>
-<div class="inline-flex flex-col md:flex-row gap-4 items-center justify-center">
-<a class="px-12 py-5 rounded-full bg-secondary text-on-secondary font-label-caps text-label-caps clay-card text-lg hover:scale-105 transition-transform" href="mailto:hello@studio-deep.com">
-                        SEND A SIGNAL
-                    </a>
-<div class="flex gap-4">
-<button class="w-16 h-16 rounded-full liquid-glass flex items-center justify-center hover:bg-white/10 transition-colors">
-<span class="material-symbols-outlined">alternate_email</span>
-</button>
-</div>
-</div>
-</div>
-</section>
-</main>
-<footer class="py-12 border-t border-white/5 bg-surface-container-lowest/50 backdrop-blur-sm">
-<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">
-                © Ishan Pantawane // 2025-2029
+  <!-- Projects -->
+  <section class="py-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto scroll-reveal" id="work">
+    <div class="flex justify-between items-end mb-16">
+      <div class="max-w-xl">
+        <h2 class="font-headline-md text-headline-md mb-4 uppercase tracking-tighter">Projects</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">A showcase of high-performance systems and experimental interfaces.</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+      <div class="clay-card liquid-glass project-card-glow-lime p-8 rounded-lg flex flex-col justify-between scroll-reveal md:col-span-2 min-h-[350px]">
+        <div>
+          <div class="flex justify-between items-start mb-8">
+            <span class="px-3 py-1 rounded-full border border-secondary/30 bg-secondary/5 font-label-caps text-[10px] text-secondary uppercase tracking-widest">Live Engine</span>
+            <span class="material-symbols-outlined text-primary">monitoring</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md mb-4">QUANTUM_FLUX</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mb-8 max-w-2xl">Real-time data visualization engine for high-frequency trading. Built to handle millions of data points per second with sub-millisecond latency.</p>
+        </div>
+        <a class="case-study-btn font-label-caps text-label-caps text-secondary px-4 py-2 rounded-lg border border-secondary/30 flex items-center justify-center gap-2 transition-all w-fit" href="#">
+          VIEW CASE STUDY <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+      <div class="clay-card liquid-glass project-card-glow-blue p-8 rounded-lg flex flex-col justify-between scroll-reveal">
+        <div>
+          <div class="flex justify-between items-start mb-8">
+            <span class="px-3 py-1 rounded-full border border-secondary/30 bg-secondary/5 font-label-caps text-[10px] text-secondary uppercase tracking-widest">R&amp;D Phase</span>
+            <span class="material-symbols-outlined text-primary">psychology</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md mb-4">SYNAPSE_OS</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Decentralized operating system for neural interface hardware.</p>
+        </div>
+        <a class="case-study-btn font-label-caps text-label-caps text-secondary px-4 py-2 rounded-lg border border-secondary/30 flex items-center justify-center gap-2 transition-all w-fit" href="#">
+          VIEW CASE STUDY <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+      <div class="clay-card liquid-glass project-card-glow-lime p-8 rounded-lg flex flex-col justify-between scroll-reveal md:col-span-3 lg:col-span-1">
+        <div>
+          <div class="flex justify-between items-start mb-8">
+            <span class="px-3 py-1 rounded-full border border-secondary/30 bg-secondary/5 font-label-caps text-[10px] text-secondary uppercase tracking-widest">Experimental</span>
+            <span class="material-symbols-outlined text-primary">memory</span>
+          </div>
+          <h3 class="font-headline-md text-headline-md mb-4">COBALT_PROTO</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mb-8">Experimental framework for low-latency edge computing.</p>
+        </div>
+        <a class="case-study-btn font-label-caps text-label-caps text-secondary px-4 py-2 rounded-lg border border-secondary/30 flex items-center justify-center gap-2 transition-all w-fit" href="#">
+          VIEW CASE STUDY <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section class="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest/30 backdrop-blur-md overflow-hidden scroll-reveal" id="tech">
+    <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-gutter items-center">
+      <div>
+        <h2 class="font-headline-md text-headline-md mb-8">FORGED IN <br/><span class="text-secondary">THE TERMINAL</span></h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+          I believe in tools that empower, not hinder. My tech stack is curated for maximum performance and uncompromising developer experience.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Next.js 14</div>
+          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">TypeScript</div>
+          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Three.js</div>
+          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">PostgreSQL</div>
+          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Tailwind CSS</div>
+          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps">Framer Motion</div>
+        </div>
+      </div>
+      <div class="relative h-[400px]">
+        <div class="absolute inset-0 bg-secondary/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="relative z-10 grid grid-cols-2 gap-4 h-full items-center">
+          <div class="space-y-4">
+            <div class="clay-card liquid-glass p-6 rounded-lg rotate-3">
+              <span class="material-symbols-outlined text-secondary mb-2">code</span>
+              <div class="font-label-caps text-label-caps">CLEAN CODE</div>
             </div>
-<div class="flex gap-8">
-<a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="#">Github</a>
-<a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="#">LinkedIn</a>
-<a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="#">Instagram</a>
-</div>
-</div>
+            <div class="clay-card liquid-glass p-6 rounded-lg -rotate-2">
+              <span class="material-symbols-outlined text-primary mb-2">speed</span>
+              <div class="font-label-caps text-label-caps">MAX VELOCITY</div>
+            </div>
+          </div>
+          <div class="space-y-4 mt-12">
+            <div class="clay-card liquid-glass p-6 rounded-lg -rotate-3">
+              <span class="material-symbols-outlined text-on-surface mb-2">security</span>
+              <div class="font-label-caps text-label-caps">ENCRYPTED</div>
+            </div>
+            <div class="clay-card liquid-glass p-6 rounded-lg rotate-2">
+              <span class="material-symbols-outlined text-secondary mb-2">hub</span>
+              <div class="font-label-caps text-label-caps">SCALABLE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-32 px-margin-mobile md:px-margin-desktop text-center scroll-reveal" id="connect">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="font-display-lg-mobile text-display-lg-mobile mb-8">Ready to initiate <br/><span class="text-secondary underline decoration-dotted underline-offset-8">deployment?</span></h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">Currently open to freelance partnerships and selective full-time opportunities. Let's build something that survives the future.</p>
+      <div class="inline-flex flex-col md:flex-row gap-4 items-center justify-center">
+        <a class="px-12 py-5 rounded-full bg-secondary text-on-secondary font-label-caps text-label-caps clay-card text-lg hover:scale-105 transition-transform" href="mailto:ishanhere01@gmail.com">
+          SEND A SIGNAL
+        </a>
+        <div class="flex gap-4">
+          <button class="w-16 h-16 rounded-full liquid-glass flex items-center justify-center hover:bg-white/10 transition-colors">
+            <span class="material-symbols-outlined">alternate_email</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="py-12 border-t border-white/5 bg-surface-container-lowest/50 backdrop-blur-sm">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">
+      © Ishan Pantawane // 2026
+    </div>
+    <div class="flex gap-8">
+      <a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="#">Github</a>
+      <a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="#">LinkedIn</a>
+      <a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="#">Instagram</a>
+    </div>
+  </div>
 </footer>
+
 <script>
-        // Track mouse coordinates for background glow
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            document.documentElement.style.setProperty('--mouse-x', `${x}px`);
-            document.documentElement.style.setProperty('--mouse-y', `${y}px`);
-        });
+  document.addEventListener('mousemove', (e) => {
+    document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+    document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+  });
 
-        // Intersection Observer for dynamic entrance animations
-        const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -100px 0px'
-        };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 50);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -100px 0px' });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, 50);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
-    </script>
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+</script>
 </body></html>
