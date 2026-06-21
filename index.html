@@ -358,59 +358,416 @@
         <script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
         <script type="module">
           import * as THREE from 'three';
+
           const container = document.getElementById('three-container');
+          const W = container.clientWidth, H = container.clientHeight;
           const scene = new THREE.Scene();
-          const camera = new THREE.PerspectiveCamera(75,container.clientWidth/container.clientHeight,0.1,1000);
-          const renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
-          renderer.setSize(container.clientWidth,container.clientHeight);
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+          const camera = new THREE.PerspectiveCamera(60, W/H, 0.1, 100);
+          camera.position.set(0, 0, 6.5);
+
+          const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+          renderer.setSize(W, H);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          renderer.shadowMap.enabled = true;
           container.appendChild(renderer.domElement);
-          scene.add(new THREE.AmbientLight(0xffffff,0.4));
-          const pl1=new THREE.PointLight(0xc5fe33,2.5,10);pl1.position.set(2,2,2);scene.add(pl1);
-          const pl2=new THREE.PointLight(0xd2f1ff,2.5,10);pl2.position.set(-2,-2,2);scene.add(pl2);
-          const group=new THREE.Group();const s=1.15;
-          const cardGeo=new THREE.BoxGeometry(2.6*s,4.0*s,0.1*s);
-          const cardMat=new THREE.MeshPhysicalMaterial({color:0x131313,roughness:0.1,metalness:0.8,transparent:true,opacity:0.9,transmission:0.3,thickness:0.5*s,clearcoat:1.0,clearcoatRoughness:0.1});
-          group.add(new THREE.Mesh(cardGeo,cardMat));
-          const edges=new THREE.EdgesGeometry(cardGeo);
-          const lineMat=new THREE.LineBasicMaterial({color:0xB2D5E5,linewidth:2,transparent:true,opacity:0.8});
-          group.add(new THREE.LineSegments(edges,lineMat));
-          const glowGeo=new THREE.PlaneGeometry(3.2*s,4.6*s);
-          const glowMat=new THREE.MeshBasicMaterial({color:0xB2D5E5,transparent:true,opacity:0,side:THREE.DoubleSide,blending:THREE.AdditiveBlending});
-          const glowPlane=new THREE.Mesh(glowGeo,glowMat);glowPlane.position.z=-0.15*s;group.add(glowPlane);
-          const texLoader=new THREE.TextureLoader();
-          const photoTex=texLoader.load('./photo1.png');
-          const photoMesh=new THREE.Mesh(new THREE.PlaneGeometry(2.3*s,2.3*s),new THREE.MeshPhysicalMaterial({map:photoTex,transparent:true,opacity:0.9,roughness:0.2,metalness:0.4,transmission:0.1,side:THREE.FrontSide}));
-          photoMesh.position.set(0,0.5*s,0.055*s);group.add(photoMesh);
-          const chip=new THREE.Mesh(new THREE.PlaneGeometry(0.5*s,0.4*s),new THREE.MeshStandardMaterial({color:0xc5fe33,emissive:0xc5fe33,emissiveIntensity:0.8}));
-          chip.position.set(-0.6*s,-1.3*s,0.051*s);group.add(chip);
-          const clip=new THREE.Mesh(new THREE.CylinderGeometry(0.12*s,0.12*s,0.25*s,16),new THREE.MeshStandardMaterial({color:0xB2D5E5,roughness:0.3,metalness:0.9}));
-          clip.position.set(0,2.0*s,0);clip.rotation.z=Math.PI/2;group.add(clip);
-          const wire=new THREE.Mesh(new THREE.CylinderGeometry(0.015*s,0.015*s,10*s,8),new THREE.MeshBasicMaterial({color:0x41484B}));
-          wire.position.set(0,7.0*s,0);group.add(wire);
-          scene.add(group);camera.position.z=6.0;
-          let scrollY=0;
-          window.addEventListener('scroll',()=>{scrollY=window.scrollY;},{passive:true});
-          const clock=new THREE.Clock();
+
+          // ── Lights ──────────────────────────────────────────────
+          scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+
+          const keyLight = new THREE.PointLight(0xc5fe33, 4, 20);
+          keyLight.position.set(3, 3, 4);
+          scene.add(keyLight);
+
+          const rimLight = new THREE.PointLight(0xB2D5E5, 3, 20);
+          rimLight.position.set(-3, -2, 3);
+          scene.add(rimLight);
+
+          const topLight = new THREE.PointLight(0xff88ff, 2, 15);
+          topLight.position.set(0, 5, 2);
+          scene.add(topLight);
+
+          // ── Card group ──────────────────────────────────────────
+          const group = new THREE.Group();
+          scene.add(group);
+          const s = 1.15;
+          const CW = 2.6*s, CH = 4.0*s, CD = 0.12*s;
+
+          // Holographic card body — custom ShaderMaterial
+          const holoVert = `
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            varying vec3 vViewPos;
+            void main(){
+              vUv = uv;
+              vNormal = normalize(normalMatrix * normal);
+              vec4 mvPos = modelViewMatrix * vec4(position,1.0);
+              vViewPos = -mvPos.xyz;
+              gl_Position = projectionMatrix * mvPos;
+            }
+          `;
+          const holoFrag = `
+            uniform float uTime;
+            varying vec2 vUv;
+            varying vec3 vNormal;
+            varying vec3 vViewPos;
+
+            vec3 hue2rgb(float h){
+              h = fract(h);
+              float r = abs(h*6.-3.)-1.;
+              float g = 2.-abs(h*6.-2.);
+              float b = 2.-abs(h*6.-4.);
+              return clamp(vec3(r,g,b),0.,1.);
+            }
+
+            void main(){
+              // Fresnel
+              vec3 N = normalize(vNormal);
+              vec3 V = normalize(vViewPos);
+              float fresnel = pow(1.0 - max(dot(N,V),0.0), 2.5);
+
+              // Iridescent rainbow sweep
+              float rainbowH = vUv.x + vUv.y*0.5 + uTime*0.08;
+              vec3 rainbow = hue2rgb(rainbowH) * fresnel * 1.8;
+
+              // Scanlines
+              float scan = step(0.5, fract(vUv.y * 60.0 + uTime * 0.3));
+              vec3 scanCol = vec3(0.05) * scan;
+
+              // Base dark glass
+              vec3 base = vec3(0.05, 0.06, 0.08);
+
+              // Grid lines
+              vec2 grid = fract(vUv * vec2(8.0, 12.0));
+              float gridLine = step(0.96, grid.x) + step(0.96, grid.y);
+              vec3 gridCol = vec3(0.18, 0.28, 0.32) * gridLine * 0.4;
+
+              // Diagonal shimmer streak
+              float streak = smoothstep(0.0, 0.08, fract(vUv.x - vUv.y + uTime*0.15)) *
+                             smoothstep(0.16, 0.08, fract(vUv.x - vUv.y + uTime*0.15));
+              vec3 streakCol = vec3(0.7, 1.0, 0.4) * streak * 0.6;
+
+              vec3 col = base + rainbow + scanCol + gridCol + streakCol;
+
+              // Vignette
+              float vig = length(vUv - 0.5) * 1.2;
+              col *= 1.0 - vig * 0.4;
+
+              gl_FragColor = vec4(col, 0.88 + fresnel*0.12);
+            }
+          `;
+
+          const holoMat = new THREE.ShaderMaterial({
+            vertexShader: holoVert,
+            fragmentShader: holoFrag,
+            uniforms: { uTime: { value: 0 } },
+            transparent: true,
+            side: THREE.FrontSide,
+          });
+
+          const cardGeo = new THREE.BoxGeometry(CW, CH, CD, 1, 1, 1);
+          const cardMesh = new THREE.Mesh(cardGeo, [
+            new THREE.MeshPhysicalMaterial({ color:0x1a2a35, roughness:0.05, metalness:0.95, transparent:true, opacity:0.85 }),
+            new THREE.MeshPhysicalMaterial({ color:0x1a2a35, roughness:0.05, metalness:0.95, transparent:true, opacity:0.85 }),
+            new THREE.MeshPhysicalMaterial({ color:0x1a2a35, roughness:0.05, metalness:0.95, transparent:true, opacity:0.85 }),
+            new THREE.MeshPhysicalMaterial({ color:0x1a2a35, roughness:0.05, metalness:0.95, transparent:true, opacity:0.85 }),
+            holoMat, // front face
+            new THREE.MeshPhysicalMaterial({ color:0x0d1a20, roughness:0.2, metalness:0.9, transparent:true, opacity:0.7 }),
+          ]);
+          group.add(cardMesh);
+
+          // Edge glow lines
+          const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(CW, CH, CD));
+          const edgeMat = new THREE.LineBasicMaterial({ color:0xc5fe33, transparent:true, opacity:0.9 });
+          group.add(new THREE.LineSegments(edgeGeo, edgeMat));
+
+          // ── Photo frame + photo ──────────────────────────────────
+          const photoSize = 2.0*s;
+          const photoY = 0.55*s;
+          const frameThick = 0.045;
+
+          // Frame border (slightly larger plane behind photo)
+          const frameMat = new THREE.ShaderMaterial({
+            vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }`,
+            fragmentShader: `
+              uniform float uTime;
+              varying vec2 vUv;
+              vec3 hue2rgb(float h){ h=fract(h); return clamp(vec3(abs(h*6.-3.)-1., 2.-abs(h*6.-2.), 2.-abs(h*6.-4.)),0.,1.); }
+              void main(){
+                // Border mask
+                float bw = 0.06;
+                float inBorder = step(bw,vUv.x)*step(bw,vUv.y)*step(vUv.x,1.-bw)*step(vUv.y,1.-bw);
+                vec3 col = hue2rgb(vUv.x*0.5 + vUv.y*0.3 + uTime*0.12) * 1.4;
+                gl_FragColor = vec4(col, (1.0-inBorder)*0.95);
+              }
+            `,
+            uniforms: { uTime: { value: 0 } },
+            transparent: true,
+            side: THREE.FrontSide,
+          });
+          const frameMesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(photoSize + frameThick*2, photoSize + frameThick*2),
+            frameMat
+          );
+          frameMesh.position.set(0, photoY, CD/2 + 0.001);
+          group.add(frameMesh);
+
+          // Photo itself
+          const texLoader = new THREE.TextureLoader();
+          const photoTex = texLoader.load('./photo1.png');
+          const photoMat = new THREE.MeshPhysicalMaterial({
+            map: photoTex, transparent: true, opacity: 0.95,
+            roughness: 0.1, metalness: 0.3,
+          });
+          const photoMesh = new THREE.Mesh(new THREE.PlaneGeometry(photoSize, photoSize), photoMat);
+          photoMesh.position.set(0, photoY, CD/2 + 0.012);
+          group.add(photoMesh);
+
+          // ── Light ray orbiting the photo ─────────────────────────
+          // We'll use a TubeGeometry along a circular path + shader for the sweeping beam
+          const rayGroup = new THREE.Group();
+          rayGroup.position.set(0, photoY, CD/2 + 0.02);
+          group.add(rayGroup);
+
+          // Orbit ring (thin glowing circle)
+          const ringRadius = photoSize/2 + 0.08;
+          const ringGeo = new THREE.TorusGeometry(ringRadius, 0.012, 8, 80);
+          const ringMat = new THREE.MeshBasicMaterial({ color: 0x111111, transparent: true, opacity: 0.25 });
+          rayGroup.add(new THREE.Mesh(ringGeo, ringMat));
+
+          // The sweeping light arc — shader-driven
+          const arcVert = `
+            varying vec2 vUv;
+            void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }
+          `;
+          const arcFrag = `
+            uniform float uTime;
+            uniform vec3 uColor;
+            varying vec2 vUv;
+            void main(){
+              // Angle along torus (vUv.x goes 0→1 around circumference)
+              float angle = vUv.x;
+              // Sweep head position
+              float head = fract(uTime * 0.22);
+              // Arc length = 0.25 of the ring, with sharp head and fading tail
+              float dist = fract(angle - head + 1.0);
+              float arc = smoothstep(0.28, 0.0, dist) * smoothstep(0.0, 0.02, dist + 0.001);
+              // Head flare
+              float flare = smoothstep(0.03, 0.0, dist) * 2.0;
+              vec3 col = uColor * (arc + flare);
+              float alpha = (arc + flare * 0.5) * 0.95;
+              gl_FragColor = vec4(col, alpha);
+            }
+          `;
+
+          // Lime arc
+          const arcGeo1 = new THREE.TorusGeometry(ringRadius, 0.022, 8, 80);
+          const arcMat1 = new THREE.ShaderMaterial({
+            vertexShader: arcVert, fragmentShader: arcFrag,
+            uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(0xc5fe33) } },
+            transparent: true, depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          });
+          const arcMesh1 = new THREE.Mesh(arcGeo1, arcMat1);
+          rayGroup.add(arcMesh1);
+
+          // Blue arc (offset by half)
+          const arcMat2 = new THREE.ShaderMaterial({
+            vertexShader: arcVert, fragmentShader: arcFrag,
+            uniforms: { uTime: { value: 0.5 }, uColor: { value: new THREE.Color(0x88d4ff) } },
+            transparent: true, depthWrite: false,
+            blending: THREE.AdditiveBlending,
+          });
+          const arcMesh2 = new THREE.Mesh(new THREE.TorusGeometry(ringRadius, 0.016, 8, 80), arcMat2);
+          rayGroup.add(arcMesh2);
+
+          // Corner sparkles (4 dots at corners)
+          const sparkMat = new THREE.MeshBasicMaterial({ color: 0xc5fe33, transparent: true, opacity: 0.9 });
+          const sparkPositions = [
+            [-photoSize/2 - 0.05,  photoSize/2 + 0.05],
+            [ photoSize/2 + 0.05,  photoSize/2 + 0.05],
+            [-photoSize/2 - 0.05, -photoSize/2 - 0.05],
+            [ photoSize/2 + 0.05, -photoSize/2 - 0.05],
+          ];
+          const sparkMeshes = sparkPositions.map(([x,y]) => {
+            const m = new THREE.Mesh(new THREE.CircleGeometry(0.04, 8), sparkMat.clone());
+            m.position.set(x, y, 0.01);
+            group.add(m); // attach to group so it moves with card
+            m.position.z = CD/2 + 0.025;
+            m.userData.baseY = y + photoY;
+            return m;
+          });
+          // Fix sparkle positions
+          sparkMeshes.forEach((m, i) => {
+            m.position.set(sparkPositions[i][0], photoY + sparkPositions[i][1], CD/2 + 0.025);
+          });
+
+          // ── Chip (NFC) ──────────────────────────────────────────
+          const chipGroup = new THREE.Group();
+          chipGroup.position.set(-0.55*s, -1.35*s, CD/2 + 0.005);
+          // Gold chip body
+          chipGroup.add(new THREE.Mesh(
+            new THREE.PlaneGeometry(0.48*s, 0.36*s),
+            new THREE.MeshStandardMaterial({ color:0xd4a017, roughness:0.2, metalness:0.9, emissive:0xd4a017, emissiveIntensity:0.15 })
+          ));
+          // Chip lines
+          for(let i=-1;i<=1;i++){
+            const lineM = new THREE.Mesh(
+              new THREE.PlaneGeometry(0.38*s, 0.018),
+              new THREE.MeshBasicMaterial({ color:0x8a6800, transparent:true, opacity:0.7 })
+            );
+            lineM.position.set(0, i*0.08*s, 0.001);
+            chipGroup.add(lineM);
+          }
+          group.add(chipGroup);
+
+          // ── Name badge area ──────────────────────────────────────
+          // Name bar background
+          const nameBg = new THREE.Mesh(
+            new THREE.PlaneGeometry(CW - 0.3, 0.32),
+            new THREE.MeshBasicMaterial({ color:0xc5fe33, transparent:true, opacity:0.12 })
+          );
+          nameBg.position.set(0, -0.55*s, CD/2 + 0.003);
+          group.add(nameBg);
+
+          // Role indicator bar
+          const roleBg = new THREE.Mesh(
+            new THREE.PlaneGeometry(CW - 0.3, 0.18),
+            new THREE.MeshBasicMaterial({ color:0xB2D5E5, transparent:true, opacity:0.08 })
+          );
+          roleBg.position.set(0, -0.86*s, CD/2 + 0.003);
+          group.add(roleBg);
+
+          // ── Lanyard ─────────────────────────────────────────────
+          const lanyardMat = new THREE.MeshStandardMaterial({ color:0x1a3a4a, roughness:0.8, metalness:0.1 });
+          const lanyardW = new THREE.Mesh(new THREE.BoxGeometry(0.18, 8*s, 0.03), lanyardMat);
+          lanyardW.position.set(0, CH/2 + 4*s, 0);
+          group.add(lanyardW);
+
+          // Lanyard stripe
+          const stripeMat = new THREE.MeshBasicMaterial({ color:0xc5fe33, transparent:true, opacity:0.5 });
+          const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.04, 8*s, 0.04), stripeMat);
+          stripe.position.set(0.04, CH/2 + 4*s, 0.01);
+          group.add(stripe);
+
+          // Metal clip
+          const clipMat = new THREE.MeshStandardMaterial({ color:0xaabbc0, roughness:0.1, metalness:1.0 });
+          const clipBody = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.18, 0.08), clipMat);
+          clipBody.position.set(0, CH/2 + 0.12, 0);
+          group.add(clipBody);
+
+          // ── Floating data badges ─────────────────────────────────
+          const badgeMat = (col) => new THREE.MeshBasicMaterial({ color:col, transparent:true, opacity:0.0, depthWrite:false });
+
+          // Status dot
+          const statusDot = new THREE.Mesh(new THREE.CircleGeometry(0.08, 16), new THREE.MeshBasicMaterial({ color:0x00ff88, transparent:true, opacity:0.9 }));
+          statusDot.position.set(0.85*s, -1.62*s, CD/2 + 0.01);
+          group.add(statusDot);
+
+          // Holographic sticker (small circle badge top-right)
+          const holoSticker = new THREE.Mesh(
+            new THREE.CircleGeometry(0.18, 32),
+            new THREE.ShaderMaterial({
+              vertexShader: `varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+              fragmentShader: `
+                uniform float uTime; varying vec2 vUv;
+                vec3 hue2rgb(float h){ h=fract(h); return clamp(vec3(abs(h*6.-3.)-1.,2.-abs(h*6.-2.),2.-abs(h*6.-4.)),0.,1.); }
+                void main(){
+                  float d=length(vUv-0.5)*2.;
+                  float ring=smoothstep(0.85,0.9,d)*smoothstep(1.0,0.95,d);
+                  vec3 col=hue2rgb(atan(vUv.y-0.5,vUv.x-0.5)*0.159+uTime*0.2)*1.5;
+                  float alpha=(1.-smoothstep(0.88,1.,d))*0.85 + ring;
+                  gl_FragColor=vec4(col,alpha);
+                }
+              `,
+              uniforms:{ uTime:{value:0} },
+              transparent:true, blending:THREE.AdditiveBlending, depthWrite:false,
+            })
+          );
+          holoSticker.position.set(0.88*s, 1.7*s, CD/2+0.015);
+          group.add(holoSticker);
+
+          // Bottom scanline flash strip
+          const flashStrip = new THREE.Mesh(
+            new THREE.PlaneGeometry(CW - 0.1, 0.06),
+            new THREE.MeshBasicMaterial({ color:0xc5fe33, transparent:true, opacity:0, blending:THREE.AdditiveBlending })
+          );
+          flashStrip.position.set(0, -CH/2 + 0.1, CD/2 + 0.01);
+          group.add(flashStrip);
+
+          // ── Glow backplate ───────────────────────────────────────
+          const glowMat = new THREE.MeshBasicMaterial({
+            color:0x6699ff, transparent:true, opacity:0,
+            side:THREE.DoubleSide, blending:THREE.AdditiveBlending
+          });
+          const glowPlane = new THREE.Mesh(new THREE.PlaneGeometry(CW + 0.8, CH + 0.8), glowMat);
+          glowPlane.position.z = -CD/2 - 0.1;
+          group.add(glowPlane);
+
+          // ── Scroll reactivity ────────────────────────────────────
+          let scrollY = 0;
+          window.addEventListener('scroll', ()=>{ scrollY=window.scrollY; }, {passive:true});
+
+          // ── Animate ──────────────────────────────────────────────
+          const clock = new THREE.Clock();
           function animate(){
             requestAnimationFrame(animate);
-            const t=clock.getElapsedTime();
-            const sp=Math.min(scrollY/600,1);
-            group.rotation.y=Math.sin(t*0.4)*0.15+sp*0.5;
-            group.rotation.x=Math.cos(t*0.3)*0.05-sp*0.2;
-            group.position.y=Math.sin(t*0.6)*0.15-sp*0.8;
-            group.scale.setScalar(1-sp*0.12);
-            const pulse=(Math.sin(t*2.5)+1)/2;
-            glowMat.opacity=pulse*0.25;
-            glowPlane.scale.set(1+pulse*0.04,1+pulse*0.04,1);
-            lineMat.opacity=0.4+pulse*0.6;
-            renderer.render(scene,camera);
+            const t = clock.getElapsedTime();
+            const sp = Math.min(scrollY/600, 1);
+
+            // Card idle float + scroll tilt
+            group.rotation.y = Math.sin(t*0.35)*0.18 + sp*0.5;
+            group.rotation.x = Math.cos(t*0.25)*0.06 - sp*0.18;
+            group.position.y = Math.sin(t*0.55)*0.18 - sp*0.8;
+            group.scale.setScalar(1 - sp*0.12);
+
+            // Update holo shader time
+            holoMat.uniforms.uTime.value = t;
+            frameMat.uniforms.uTime.value = t;
+            holoSticker.material.uniforms.uTime.value = t;
+
+            // Sweeping light arcs
+            arcMat1.uniforms.uTime.value = t;
+            arcMat2.uniforms.uTime.value = t + 0.5;
+
+            // Sparkle pulse
+            sparkMeshes.forEach((m, i) => {
+              const pulse = (Math.sin(t*3 + i*1.5)+1)/2;
+              m.material.opacity = 0.4 + pulse * 0.6;
+              m.scale.setScalar(0.8 + pulse * 0.5);
+            });
+
+            // Edge glow pulse
+            edgeMat.opacity = 0.5 + (Math.sin(t*2)+1)/2 * 0.5;
+            const edgeHue = (t * 0.05) % 1;
+            edgeMat.color.setHSL(edgeHue * 0.15 + 0.22, 1, 0.7); // lime → teal shift
+
+            // Status dot pulse
+            statusDot.material.opacity = 0.5 + (Math.sin(t*4)+1)/2 * 0.5;
+            statusDot.scale.setScalar(1 + (Math.sin(t*4)+1)/2 * 0.3);
+
+            // Scanline flash
+            flashStrip.material.opacity = Math.max(0, Math.sin(t*0.7)*0.3);
+
+            // Backplate glow
+            glowMat.opacity = (Math.sin(t*1.2)+1)/2 * 0.18;
+            const glowH = (t*0.04)%1;
+            glowMat.color.setHSL(glowH, 1, 0.6);
+
+            // Moving key light orbit
+            keyLight.position.x = Math.sin(t*0.6)*4;
+            keyLight.position.y = Math.cos(t*0.4)*3;
+            rimLight.position.x = Math.cos(t*0.5)*3;
+            rimLight.position.y = Math.sin(t*0.7)*2;
+
+            renderer.render(scene, camera);
           }
           animate();
-          window.addEventListener('resize',()=>{
-            camera.aspect=container.clientWidth/container.clientHeight;
+
+          window.addEventListener('resize', ()=>{
+            const W2=container.clientWidth, H2=container.clientHeight;
+            camera.aspect=W2/H2;
             camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth,container.clientHeight);
+            renderer.setSize(W2,H2);
           });
         </script>
       </div>
