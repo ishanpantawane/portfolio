@@ -5,7 +5,7 @@
 <title>Ishan Pantawane // Portfolio</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23131313'/><path d='M30 35L55 50L30 65' stroke='%23c5fe33' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/><line x1='60' y1='65' x2='80' y2='65' stroke='%23e5e2e1' stroke-width='10' stroke-linecap='round'/></svg>">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@100..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
   tailwind.config = {
     darkMode: "class",
@@ -176,11 +176,130 @@
   /* ======= HERO PARALLAX ======= */
   .hero-layer-text{will-change:transform,opacity;}
 
-  @media(prefers-reduced-motion:reduce){
+  /* ======= HERO NAME — OUTFIT ======= */
+  .hero-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 9vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+  .hero-name .name-first {
+    display: block;
+    background: linear-gradient(110deg, #c5fe33 10%, #a8d600 55%, #c5fe33 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% auto;
+    animation: nameShimmer 4s linear infinite;
+  }
+  .hero-name .name-last {
+    display: block;
+    color: #e5e2e1;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    font-size: clamp(22px, 3.6vw, 40px);
+    margin-top: 0.15em;
+  }
+  @keyframes nameShimmer {
+    0%   { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+
+  /* ======= TECH PILLS ======= */
+  .tech-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 52px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #c1c7cb;
+    cursor: default;
+    overflow: hidden;
+    transition:
+      color 0.35s cubic-bezier(0.16,1,0.3,1),
+      border-color 0.35s ease,
+      transform 0.3s cubic-bezier(0.16,1,0.3,1),
+      box-shadow 0.35s ease;
+  }
+
+  /* liquid fill sweeps up from below */
+  .tech-pill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--pill-glow, #c5fe33);
+    transform: translateY(102%);
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+    z-index: 0;
+  }
+
+  /* outer glow ring */
+  .tech-pill::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 12px;
+    box-shadow: 0 0 0 0 var(--pill-glow, #c5fe33);
+    transition: box-shadow 0.4s ease;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .tech-pill-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), color 0.35s ease;
+  }
+
+  .tech-pill span {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    white-space: nowrap;
+  }
+
+  .tech-pill:hover {
+    color: var(--pill-text, #263500);
+    border-color: transparent;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  }
+
+  .tech-pill:hover::before { transform: translateY(0%); }
+
+  .tech-pill:hover::after {
+    box-shadow: 0 0 20px 3px color-mix(in srgb, var(--pill-glow, #c5fe33) 45%, transparent);
+  }
+
+  .tech-pill:hover .tech-pill-icon {
+    transform: scale(1.2) rotate(-8deg);
+  }
+
+  .tech-pill:hover span { transform: translateX(1px); }
+
+  .tech-pill:active { transform: translateY(-1px) scale(0.98); }
+
+  @media (prefers-reduced-motion: reduce) {
     .reveal-3d,.reveal-3d-child{transition:opacity 0.5s ease;transform:none!important;}
     .tilt-card{transition:none;}
     .particle{display:none;}
     .orbit-ring,.orbit-ring2,.orbit-ring3{animation:none;}
+    .tech-pill{transition:color 0.2s ease,border-color 0.2s ease;}
+    .tech-pill::before{transition:none;}
   }
 </style>
 </head>
@@ -215,8 +334,9 @@
           <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
           <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Available for freelance · 2026</span>
         </div>
-        <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-8 leading-none">
-          <span class="text-secondary">ISHAN</span><br/>PANTAWANE
+        <h1 class="hero-name mb-8">
+          <span class="name-first">Ishan</span>
+          <span class="name-last">Pantawane</span>
         </h1>
         <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-12">
           Bridging the gap between hyper-clean aesthetics and industrial-grade software architecture. I build interfaces that feel like liquid and systems that run like clockwork.
@@ -351,13 +471,31 @@
       <div class="reveal-3d">
         <h2 class="font-headline-md text-headline-md mb-8">FORGED IN <br/><span class="text-secondary">THE TERMINAL</span></h2>
         <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">I believe in tools that empower, not hinder. My tech stack is curated for maximum performance and uncompromising developer experience.</p>
-        <div class="flex flex-wrap gap-4">
-          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps reveal-3d-child" style="--delay:0ms">Next.js 14</div>
-          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps reveal-3d-child" style="--delay:60ms">TypeScript</div>
-          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps reveal-3d-child" style="--delay:120ms">Three.js</div>
-          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps reveal-3d-child" style="--delay:180ms">PostgreSQL</div>
-          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps reveal-3d-child" style="--delay:240ms">Tailwind CSS</div>
-          <div class="px-6 py-3 rounded-full border border-white/10 bg-white/5 font-label-caps text-label-caps reveal-3d-child" style="--delay:300ms">Framer Motion</div>
+        <div class="grid grid-cols-3 gap-2.5 w-full max-w-sm">
+          <div class="tech-pill reveal-3d-child" style="--delay:0ms;--pill-glow:#c5fe33;--pill-text:#263500">
+            <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z"/></svg>
+            <span>Next.js 14</span>
+          </div>
+          <div class="tech-pill reveal-3d-child" style="--delay:60ms;--pill-glow:#d2f1ff;--pill-text:#103441">
+            <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.031 4.636 4.636 0 0 1-1.469.539 8.212 8.212 0 0 1-1.706.173c-.5 0-.98-.044-1.44-.133a11.26 11.26 0 0 1-1.313-.339v-2.57c.28.163.587.305.92.427.334.123.667.22.998.29.332.07.649.106.951.106.3 0 .558-.028.775-.082.217-.055.396-.134.538-.238.141-.104.248-.228.322-.372a1.07 1.07 0 0 0 .11-.488c0-.214-.064-.403-.193-.568a2.099 2.099 0 0 0-.534-.44 8.08 8.08 0 0 0-.811-.42c-.31-.143-.645-.3-1.006-.47a6.855 6.855 0 0 1-1.168-.689 4.15 4.15 0 0 1-.876-.884 3.717 3.717 0 0 1-.55-1.105 4.74 4.74 0 0 1-.186-1.36c0-.617.118-1.153.353-1.608.235-.456.56-.835.975-1.138a4.44 4.44 0 0 1 1.43-.67 6.413 6.413 0 0 1 1.727-.215zm-9.74.06h2.745v9.174h2.938v2.137H8.748z"/></svg>
+            <span>TypeScript</span>
+          </div>
+          <div class="tech-pill reveal-3d-child" style="--delay:120ms;--pill-glow:#c5fe33;--pill-text:#263500">
+            <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M11.9Width 0 L23.8 6.857V17.143L11.9 24 0 17.143V6.857zM11.9 2.286L2.171 7.714V16.286L11.9 21.714 21.629 16.286V7.714z"/><path d="M11.9 5.143a6.857 6.857 0 1 1 0 13.714 6.857 6.857 0 0 1 0-13.714zm0 2.286a4.571 4.571 0 1 0 0 9.142 4.571 4.571 0 0 0 0-9.142zm0 1.714a2.857 2.857 0 1 1 0 5.714 2.857 2.857 0 0 1 0-5.714z"/></svg>
+            <span>Three.js</span>
+          </div>
+          <div class="tech-pill reveal-3d-child" style="--delay:180ms;--pill-glow:#d2f1ff;--pill-text:#103441">
+            <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.128 0a10.134 10.134 0 0 1 2.755 3.223h-5.51v-3.22zm-4.257 0v3.223H7.368A10.134 10.134 0 0 1 12.12 0h.75zm5.787 4.8a10.177 10.177 0 0 1 .953 3.223h-4.463V4.8zm-7.416 0v3.223H2.575a10.177 10.177 0 0 1 .953-3.223zM2.125 9.6h4.463v3.223H2.125A10.177 10.177 0 0 1 2.575 9.6zm3.513 0h6.482v3.223H5.638zm8.059 0h4.463a10.177 10.177 0 0 1 .451 3.223h-4.914zm-9.572 4.8h4.463v3.223H4.08a10.177 10.177 0 0 1-.953-3.223zm6.04 0h6.482v3.223H9.165zm8.059 0h4.463a10.177 10.177 0 0 1-.953 3.223h-3.51zm-9.572 4.8h5.51v3.223a10.134 10.134 0 0 1-2.755-3.223zm7.087 0h5.51a10.134 10.134 0 0 1-2.755 3.223V19.2z"/></svg>
+            <span>PostgreSQL</span>
+          </div>
+          <div class="tech-pill reveal-3d-child" style="--delay:240ms;--pill-glow:#c5fe33;--pill-text:#263500">
+            <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>
+            <span>Tailwind CSS</span>
+          </div>
+          <div class="tech-pill reveal-3d-child" style="--delay:300ms;--pill-glow:#d2f1ff;--pill-text:#103441">
+            <svg class="tech-pill-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.455 2.406 10.973 20.53l-2.437-5.384 5.332-5.332-5.847.974L5.545 4.433l12.91-2.027zm-1.484 1.557-9.606 1.508 2.325 5.146 5.479-.911-4.03 4.03 1.72 3.802 4.112-13.575z"/></svg>
+            <span>Framer Motion</span>
+          </div>
         </div>
       </div>
       <div class="relative h-[400px] flex items-center justify-center reveal-3d" style="perspective:800px;">
