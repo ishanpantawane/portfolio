@@ -113,6 +113,12 @@
     .spotlight-card,.spotlight-glow,.spotlight-shimmer,.spotlight-line{transition:none!important;}
   }
 
+  /* ======= PROJECTS HEADING — one-shot animate() entrance ======= */
+  .projects-heading-reveal{opacity:0;}
+  @media (prefers-reduced-motion: reduce){
+    .projects-heading-reveal{opacity:1!important;}
+  }
+
   /* ======= PROJECT GRID LAYOUT (bento morph via anime.js createLayout) ======= */
   .project-grid-layout{
     display:grid;
@@ -596,7 +602,7 @@
 
   <!-- PROJECTS -->
   <section class="py-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto" id="work">
-    <div class="flex justify-between items-end mb-16 reveal-3d">
+    <div class="flex justify-between items-end mb-16 projects-heading-reveal" id="projects-heading">
       <div class="max-w-xl">
         <h2 class="font-headline-md text-headline-md mb-4 uppercase tracking-tighter">Projects</h2>
         <p class="font-body-sm text-body-sm text-on-surface-variant">A showcase of high-performance systems and experimental interfaces.</p>
@@ -941,6 +947,55 @@
   });
   cardEl.addEventListener('mouseleave',()=>{ cardEl.style.animation=''; cardEl.style.transform=''; });
 })();
+</script>
+
+<script>
+  // Safety net: reveal the Projects heading even if the animejs CDN module fails to load.
+  (function(){
+    var h = document.getElementById('projects-heading');
+    if (!h) return;
+    setTimeout(function(){ h.style.opacity = '1'; }, 4500);
+  })();
+</script>
+
+<script type="module">
+  // "Projects" heading — one-shot slide + rotate entrance, powered by anime.js v4's animate().
+  import { animate } from "https://esm.sh/animejs@4";
+
+  const heading = document.getElementById('projects-heading');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (heading) {
+    if (reduced) {
+      heading.style.opacity = 1;
+    } else {
+      let played = false;
+      const reveal = () => {
+        if (played) return;
+        played = true;
+        animate(heading, {
+          opacity: { from: 0.15 },
+          translateX: { from: '-3rem' },
+          rotate: { from: '-.06turn', ease: 'inOutQuad' },
+          duration: 800,
+          ease: 'outExpo'
+        });
+      };
+      // Fallback in case the CDN module fails to load or the observer never fires.
+      const fallback = setTimeout(() => { heading.style.opacity = 1; }, 4000);
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            clearTimeout(fallback);
+            reveal();
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      io.observe(heading);
+    }
+  }
 </script>
 
 <script type="module">
