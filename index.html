@@ -465,7 +465,7 @@
     });
 
     // Gap before each swap — starts fast (200ms), gradually slows to 900ms by the end.
-    var gaps = [100, 110, 125, 130, 145, 260, 280, 295, 312, 331, 351, 366, 378, 390, 410, 430];
+    var gaps = [100, 110, 125, 130, 140, 160, 180, 205, 230, 255, 278, 303, 333, 360, 390, 430];
 
     function scheduleNext(){
       var gap = gaps[Math.min(idx, gaps.length - 1)];
