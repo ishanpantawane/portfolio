@@ -945,7 +945,7 @@
 
 <script type="module">
   // Bento layout morph for the Projects grid, powered by anime.js v4's createLayout (FLIP-based).
-  import { createLayout, stagger } from "https://esm.sh/animejs@4";
+  import { createLayout } from "https://esm.sh/animejs@4";
 
   const root = document.getElementById('project-layout-root');
   const canMorph = root
@@ -960,7 +960,6 @@
         root.dataset.grid = (++i % 3) + 1;
       }, {
         duration: 900,
-        delay: stagger(120),
         onComplete: () => { setTimeout(morphLayout, 2600); }
       });
     }
