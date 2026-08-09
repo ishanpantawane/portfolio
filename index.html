@@ -164,18 +164,20 @@
     transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1);
   }
   #boot-loader.boot-hide{opacity:0;pointer-events:none;}
+  .boot-stage{position:relative;display:flex;align-items:center;justify-content:center;min-width:1px;min-height:44px;}
+  .boot-slot{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;}
   .boot-text{
     display:flex;align-items:center;gap:12px;
     font-family:'Outfit',sans-serif;font-weight:600;
     font-size:clamp(22px,4vw,32px);letter-spacing:-0.01em;
     color:#e5e2e1;
-    opacity:0;transform:translateY(18px);
-    transition:opacity 0.22s cubic-bezier(0.16,1,0.3,1),transform 0.22s cubic-bezier(0.16,1,0.3,1);
+    opacity:0;transform:translateY(24px) scale(0.5);
+    transition:opacity 0.35s cubic-bezier(0.33,1,0.68,1),transform 0.35s cubic-bezier(0.33,1,0.68,1);
   }
-  .boot-text.boot-enter{opacity:1;transform:translateY(0);}
+  .boot-text.boot-enter{opacity:1;transform:translateY(0) scale(1);}
   .boot-text.boot-exit{
-    opacity:0;transform:translateY(-26px);
-    transition:opacity 0.18s ease,transform 0.18s ease;
+    opacity:0;transform:translateY(0) scale(0.1);
+    transition:opacity 0.4s cubic-bezier(0.33,1,0.68,1),transform 0.4s cubic-bezier(0.33,1,0.68,1);
   }
   .boot-dot{
     width:8px;height:8px;border-radius:50%;background:#c5fe33;flex-shrink:0;
@@ -404,27 +406,55 @@
 <body class="font-body-lg text-on-surface">
 
 <div id="boot-loader">
-  <div class="boot-text" id="boot-text"></div>
+  <div class="boot-stage">
+    <div class="boot-slot"><div class="boot-text" id="boot-text-a"></div></div>
+    <div class="boot-slot"><div class="boot-text" id="boot-text-b"></div></div>
+  </div>
 </div>
 <script>
   document.documentElement.style.overflow = 'hidden';
   (function(){
     var loader = document.getElementById('boot-loader');
-    var text   = document.getElementById('boot-text');
+    var slotA  = document.getElementById('boot-text-a');
+    var slotB  = document.getElementById('boot-text-b');
     var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     var greetings = [
-      { text: "Backend Engineer",     lang: "en" },
-      { text: "バックエンドエンジニア", lang: "ja" },
-      { text: "बैकएंड इंजीनियर",       lang: "hi" },
-      { text: "백엔드 엔지니어",        lang: "ko" },
-      { text: "后端工程师",            lang: "zh" },
-      { text: "Backend Engineer",     lang: "en" }
+      { text: "Pythonデベロッパー",            lang: "ja" },
+      { text: "파이썬 개발자",                lang: "ko" },
+      { text: "पायथन डेवलपर",                 lang: "hi" },
+      { text: "Python开发者",                 lang: "zh" },
+      { text: "مطور بايثون",                  lang: "ar" },
+      { text: "Python-разработчик",           lang: "ru" },
+      { text: "Python-Entwickler",            lang: "de" },
+      { text: "Développeur Python",           lang: "fr" },
+      { text: "Desarrollador Python",         lang: "es" },
+      { text: "Desenvolvedor Python",         lang: "pt" },
+      { text: "Sviluppatore Python",          lang: "it" },
+      { text: "Python-ontwikkelaar",          lang: "nl" },
+      { text: "Python-utvecklare",            lang: "sv" },
+      { text: "Python-utvikler",              lang: "no" },
+      { text: "Python-udvikler",              lang: "da" },
+      { text: "Python-kehittäjä",             lang: "fi" },
+      { text: "Programista Python",           lang: "pl" },
+      { text: "Python Geliştiricisi",         lang: "tr" },
+      { text: "Προγραμματιστής Python",       lang: "el" },
+      { text: "מפתח פייתון",                  lang: "he" },
+      { text: "นักพัฒนา Python",              lang: "th" },
+      { text: "Nhà phát triển Python",        lang: "vi" },
+      { text: "Pengembang Python",            lang: "id" },
+      { text: "Pembangun Python",             lang: "ms" },
+      { text: "Developer ng Python",          lang: "tl" },
+      { text: "Розробник Python",             lang: "uk" },
+      { text: "Python vývojář",               lang: "cs" },
+      { text: "Dezvoltator Python",           lang: "ro" },
+      { text: "Python fejlesztő",             lang: "hu" },
+      { text: "Python Developer",             lang: "en" }
     ];
 
-    function setContent(g){
-      text.lang = g.lang;
-      text.innerHTML = '<span class="boot-dot" aria-hidden="true"></span>' + g.text;
+    function setContent(el, g){
+      el.lang = g.lang;
+      el.innerHTML = '<span class="boot-dot" aria-hidden="true"></span>' + g.text;
     }
 
     function finish(){
@@ -434,38 +464,59 @@
     }
 
     if (reduced) {
-      setContent(greetings[greetings.length - 1]);
-      text.classList.add('boot-enter');
+      setContent(slotA, greetings[greetings.length - 1]);
+      slotA.classList.add('boot-enter');
       setTimeout(finish, 500);
       return;
     }
 
     var idx = 0;
-    setContent(greetings[0]);
+    var front = slotA;   // currently visible element
+    var back  = slotB;   // off-screen, ready to receive the next greeting
+    setContent(front, greetings[0]);
     requestAnimationFrame(function(){
-      setTimeout(function(){ text.classList.add('boot-enter'); }, 100);
+      setTimeout(function(){ front.classList.add('boot-enter'); }, 100);
     });
 
-    var cycle = setInterval(function(){
+    // Gap before each swap — starts fast (200ms), gradually slows to 900ms by the end.
+    var gaps = [100, 110, 125, 145, 175, 200, 230, 265, 305, 350, 400, 455, 460, 525, 595, 670, 671, 673, 678, 683, 692, 702, 718, 733, 753, 763, 780, 810, 850];
+
+    function scheduleNext(){
+      var gap = gaps[Math.min(idx, gaps.length - 1)];
+      setTimeout(advance, gap);
+    }
+
+    function advance(){
       idx++;
       if (idx >= greetings.length) {
-        clearInterval(cycle);
         setTimeout(function(){
-          text.classList.remove('boot-enter');
-          text.classList.add('boot-exit');
+          front.classList.remove('boot-enter');
+          front.classList.add('boot-exit');
         }, 450);
         setTimeout(finish, 650);
         return;
       }
-      text.classList.remove('boot-enter');
-      text.classList.add('boot-exit');
-      setTimeout(function(){
-        setContent(greetings[idx]);
-        text.classList.remove('boot-exit');
-        void text.offsetWidth;
-        requestAnimationFrame(function(){ text.classList.add('boot-enter'); });
-      }, 180);
-    }, 700);
+      // Outgoing text shrinks back...
+      front.classList.remove('boot-enter');
+      front.classList.add('boot-exit');
+
+      // ...while the incoming text pops up from below at the same time.
+      var incoming = back; // snapshot — 'back' gets reassigned below before rAF fires
+      setContent(incoming, greetings[idx]);
+      incoming.classList.remove('boot-enter', 'boot-exit');
+      incoming.style.transition = 'none';   // snap to the below-start position instantly, no animated jump
+      void incoming.offsetWidth;             // force the snap to commit before re-enabling transitions
+      incoming.style.transition = '';
+      requestAnimationFrame(function(){ incoming.classList.add('boot-enter'); });
+
+      var temp = front;
+      front = back;
+      back = temp;
+
+      scheduleNext();
+    }
+
+    scheduleNext();
   })();
 </script>
 
@@ -746,7 +797,7 @@
 
 <footer class="py-12 border-t border-white/5 bg-surface-container-lowest/50 backdrop-blur-sm">
   <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-6">
-    <div class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">© Ishan Pantawane // 2026 || All rights Reserved</div>
+    <div class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">© Ishan Pantawane // 2026</div>
     <div class="flex gap-8">
       <a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="https://github.com/ishanpantawane" target="_blank">Github</a>
       <a class="font-label-caps text-[10px] text-on-surface-variant/60 hover:text-secondary transition-colors uppercase" href="https://www.linkedin.com/in/representing-ishan/" target="_blank">LinkedIn</a>
@@ -976,6 +1027,7 @@
         animate(heading, {
           opacity: { from: 0.15 },
           translateX: { from: '-3rem' },
+          translateY: { from: '1.5rem' },
           rotate: { from: '-.06turn', ease: 'inOutQuad' },
           duration: 800,
           ease: 'outExpo'
