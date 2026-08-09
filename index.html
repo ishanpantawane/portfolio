@@ -955,7 +955,16 @@
   if (canMorph) {
     const layout = createLayout(root, { ease: 'outExpo' });
     let i = 0;
+    let hovering = false;
+
+    root.addEventListener('mouseenter', () => { hovering = true; });
+    root.addEventListener('mouseleave', () => { hovering = false; });
+
     function morphLayout() {
+      if (hovering) {
+        setTimeout(morphLayout, 400);
+        return;
+      }
       layout.update(({ root }) => {
         root.dataset.grid = (++i % 3) + 1;
       }, {
