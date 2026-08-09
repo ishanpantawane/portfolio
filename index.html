@@ -80,10 +80,13 @@
   .spotlight-card{
     position:relative;overflow:hidden;
     transform-style:preserve-3d;transform:perspective(900px) rotateX(0deg) rotateY(0deg);
-    transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),opacity 0.35s ease,scale 0.35s ease;
+    transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),opacity 0.55s cubic-bezier(0.4,0,0.2,1),scale 0.55s cubic-bezier(0.4,0,0.2,1);
     will-change:transform;
   }
-  .spotlight-grid.has-hover .spotlight-card:not(.is-hovered){opacity:0.5;scale:0.96;}
+  .spotlight-grid.has-hover .spotlight-card:not(.is-hovered){
+    opacity:0.42;scale:0.965;
+    transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),opacity 0.6s cubic-bezier(0.4,0,0.2,1) 0.15s,scale 0.6s cubic-bezier(0.4,0,0.2,1) 0.15s;
+  }
   .spotlight-card .spotlight-tint,
   .spotlight-card .spotlight-glow{
     position:absolute;inset:0;pointer-events:none;border-radius:inherit;
@@ -121,6 +124,36 @@
 
   /* ======= SCROLL BAR ======= */
   #scroll-bar{position:fixed;top:0;left:0;height:2px;z-index:200;background:linear-gradient(90deg,#c5fe33,#B2D5E5);width:0%;transition:width 0.05s linear;}
+
+  /* ======= BOOT LOADER ======= */
+  #boot-loader{
+    position:fixed;inset:0;z-index:99999;
+    display:flex;align-items:center;justify-content:center;
+    background:#020202;
+    transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  #boot-loader.boot-hide{opacity:0;pointer-events:none;}
+  .boot-text{
+    display:flex;align-items:center;gap:12px;
+    font-family:'Outfit',sans-serif;font-weight:600;
+    font-size:clamp(22px,4vw,32px);letter-spacing:-0.01em;
+    color:#e5e2e1;
+    opacity:0;transform:translateY(18px);
+    transition:opacity 0.22s cubic-bezier(0.16,1,0.3,1),transform 0.22s cubic-bezier(0.16,1,0.3,1);
+  }
+  .boot-text.boot-enter{opacity:1;transform:translateY(0);}
+  .boot-text.boot-exit{
+    opacity:0;transform:translateY(-26px);
+    transition:opacity 0.18s ease,transform 0.18s ease;
+  }
+  .boot-dot{
+    width:8px;height:8px;border-radius:50%;background:#c5fe33;flex-shrink:0;
+    box-shadow:0 0 8px rgba(197,254,51,0.6);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .boot-text{transition:opacity 0.3s ease!important;transform:none!important;}
+    #boot-loader{transition:opacity 0.3s ease!important;}
+  }
 
   /* ======= HERO STAGGER ======= */
   .stagger-in{animation:fadeInUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards;opacity:0;}
@@ -338,6 +371,72 @@
 </style>
 </head>
 <body class="font-body-lg text-on-surface">
+
+<div id="boot-loader">
+  <div class="boot-text" id="boot-text"></div>
+</div>
+<script>
+  document.documentElement.style.overflow = 'hidden';
+  (function(){
+    var loader = document.getElementById('boot-loader');
+    var text   = document.getElementById('boot-text');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var greetings = [
+      { text: "Backend Engineer",     lang: "en" },
+      { text: "バックエンドエンジニア", lang: "ja" },
+      { text: "बैकएंड इंजीनियर",       lang: "hi" },
+      { text: "백엔드 엔지니어",        lang: "ko" },
+      { text: "后端工程师",            lang: "zh" },
+      { text: "Backend Engineer",     lang: "en" }
+    ];
+
+    function setContent(g){
+      text.lang = g.lang;
+      text.innerHTML = '<span class="boot-dot" aria-hidden="true"></span>' + g.text;
+    }
+
+    function finish(){
+      document.documentElement.style.overflow = '';
+      loader.classList.add('boot-hide');
+      setTimeout(function(){ loader.remove(); }, 650);
+    }
+
+    if (reduced) {
+      setContent(greetings[greetings.length - 1]);
+      text.classList.add('boot-enter');
+      setTimeout(finish, 500);
+      return;
+    }
+
+    var idx = 0;
+    setContent(greetings[0]);
+    requestAnimationFrame(function(){
+      setTimeout(function(){ text.classList.add('boot-enter'); }, 100);
+    });
+
+    var cycle = setInterval(function(){
+      idx++;
+      if (idx >= greetings.length) {
+        clearInterval(cycle);
+        setTimeout(function(){
+          text.classList.remove('boot-enter');
+          text.classList.add('boot-exit');
+        }, 450);
+        setTimeout(finish, 650);
+        return;
+      }
+      text.classList.remove('boot-enter');
+      text.classList.add('boot-exit');
+      setTimeout(function(){
+        setContent(greetings[idx]);
+        text.classList.remove('boot-exit');
+        void text.offsetWidth;
+        requestAnimationFrame(function(){ text.classList.add('boot-enter'); });
+      }, 180);
+    }, 700);
+  })();
+</script>
 
 <div id="scroll-bar"></div>
 <div class="bg-grid-layer"></div>
